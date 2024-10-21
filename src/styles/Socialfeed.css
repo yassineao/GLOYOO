@@ -1,0 +1,16 @@
+.social-feed {
+    padding: 1rem;
+  }
+  
+  .social-feed h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .post {
+    background-color: #fff;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+  }
+  

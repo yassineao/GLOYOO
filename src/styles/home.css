@@ -1,0 +1,23 @@
+
+/* Cyberpunk Social Media Dashboard Section */
+#dashboard-section {
+    display: flex;
+    flex-direction: column; /* Stack child elements vertically */
+    padding: 20px;
+    height: 100vh; /* Section takes full viewport height */
+    /* Set the background image */
+    background-image: url('https://r4.wallpaperflare.com/wallpaper/553/87/605/music-stars-planet-space-wallpaper-b8e68da870004ce8208c61ae1812245a.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    align-items: center; /* Optional: center child elements horizontally */
+    justify-content: center; /* Optional: center child elements vertically */
+}
+
+/* Ensure child components don't stretch */
+#dashboard-section > * {
+    flex: 0 0 auto; /* Prevents child elements from stretching */
+}
+th{
+    color: aliceblue;
+}

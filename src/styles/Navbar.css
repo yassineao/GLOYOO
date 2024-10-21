@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1d0101;
+  font-family: 'Orbitron', sans-serif;
+  background-image: url('https://r4.wallpaperflare.com/wallpaper/23/920/850/the-sun-music-palm-trees-background-wallpaper-c9f0384d517a6ddbe617b8af7051962d.jpg');
+  background-size: contain; /* Ensure the image stays within the viewable area */
+  background-position: center top; /* Center the image at the top */
+  background-repeat: no-repeat; /* Do not repeat the background image */
+  background-attachment: fixed; /* Make the background image fixed during scroll */
+  height: 100vh; /* Ensure the height is 100% of the viewport */
+}
+
+
+/* Cyberpunk Navigation Bar */
+#cyberpunk-nav {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 15px #00ffff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Logo Styling */
+#cyberpunk-nav .logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+}
+
+#cyberpunk-nav .logo a:hover {
+  color: #00ffff;
+}
+
+/* Navigation Menu Styling */
+#cyberpunk-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  margin-left: auto; /* Pushes the navigation links to the right */
+}
+
+#cyberpunk-nav li {
+  position: relative;
+}
+
+#cyberpunk-nav ul li a {
+  display: block;
+  padding: 20px 30px;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+}
+
+#cyberpunk-nav ul li a:hover {
+  color: #00ffff;
+  animation: glitch 0.5s infinite;
+}
+
+/* Neon Bottom Line Effect */
+#cyberpunk-nav ul li a::before {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #00ffff;
+  transition: width 0.4s ease-in-out;
+  left: 0;
+  bottom: 0;
+}
+
+#cyberpunk-nav ul li a:hover::before {
+  width: 100%;
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+  0% {
+      text-shadow: 2px 2px #ff00c1;
+  }
+  20% {
+      text-shadow: -2px -2px #00fff9;
+  }
+  40% {
+      text-shadow: 2px -2px #ff00c1;
+  }
+  60% {
+      text-shadow: -2px 2px #00fff9;
+  }
+  80% {
+      text-shadow: 2px 2px #ff00c1;
+  }
+  100% {
+      text-shadow: -2px -2px #00fff9;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #cyberpunk-nav {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #cyberpunk-nav ul {
+      margin-left: 0;
+  }
+
+  #cyberpunk-nav ul {
+      flex-direction: column;
+  }
+
+  #cyberpunk-nav ul li a {
+      text-align: center;
+      padding: 15px;
+  }
+}
