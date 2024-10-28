@@ -78,3 +78,8 @@
     border-style: double;
     width: 25%;
 }
+.selectedCoin-details-graph{
+   
+    border-style: double;
+    width: 100%;
+}

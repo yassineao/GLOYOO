@@ -9,9 +9,9 @@ const Navbar = () => {
             <a href="#">GLOYOO</a>
         </div>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Services</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/news">News</a></li>
+            <li><a href="/test">test</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>

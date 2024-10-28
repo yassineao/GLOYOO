@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Coin from './coin';
+import CryptoChart from '../components/CryptoCharts';
 
 import GlitchingButton from '../components/glitchingButton';
 import '../styles/coin.css';// Optional: Create a CSS file for styling
@@ -44,6 +45,10 @@ function CryptoInfo() {
 
   return (
     <div>
+
+// Example usage in another component
+
+
     <div className="inventory-container" id="cyberpunk-inventory">
          {/* Left Side - Coin List */}
          <div className="inventory-list">
@@ -77,6 +82,9 @@ function CryptoInfo() {
                   <div className="selectedCoin-link">
                     <a href={`https://www.selectedCoingecko.com/en/selectedCoins/${selectedCoin.id}`} target="_blank" rel="noreferrer">View on selectedCoinGecko</a>
                   </div>
+                </div>
+                <div className='selectedCoin-details-graph'>
+                <CryptoChart coinId={selectedCoin.id} days={30} />
                 </div>
              </>
            ) : (
