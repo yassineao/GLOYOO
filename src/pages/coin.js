@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import GlitchingButton from '../components/glitchingButton';
-import '../styles/home.css';// Optional: Create a CSS file for styling
+import '../styles/coin.css';// Optional: Create a CSS file for styling
 const Coin = () => {
   const [cryptoData, setCryptoData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedCoin, setSelectedCoin] = useState(null);
+
+  // Function to handle coin selection
+  const showCoinDetails = (coin) => {
+    setSelectedCoin(coin);
+  };
 
   useEffect(() => {
     const fetchCryptoData = async () => {
@@ -37,7 +43,34 @@ const Coin = () => {
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div >
+ <div className="inventory-container">
+      {/* Left Side - Coin List */}
+      <div className="inventory-list">
+        {cryptoData.map((coin, index) => (
+          <div 
+            key={index} 
+            className="coin-item" 
+            onClick={() => showCoinDetails(coin)}
+          >
+            {coin.name}
+          </div>
+        ))}
+      </div>
 
+      {/* Right Side - Coin Details */}
+      <div className="coin-details">
+        {selectedCoin ? (
+          <>
+            <div className="coin-name">{selectedCoin.name}</div>
+            <div className="coin-info">Price: ${selectedCoin.price}</div>
+            <div className="coin-info">Market Cap: ${selectedCoin.marketCap.toLocaleString()}</div>
+            <div className="coin-info">Change: {selectedCoin.change}%</div>
+          </>
+        ) : (
+          <div className="coin-name">Select a Coin</div>
+        )}
+      </div>
+    </div>
 <h1>Cryptocurrency Data</h1>
       <table>
         <thead>

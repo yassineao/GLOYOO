@@ -1,0 +1,80 @@
+/* App.css */
+
+/* Scoped styling using #cyberpunk-inventory ID */
+
+#cyberpunk-inventory * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #cyberpunk-inventory {
+    place-self: center;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    width: 70%;
+    height: 80%;
+    background: rgba(20, 20, 30, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ff99, 0 0 40px #0077ff;
+    border: 2px solid #00ff99;
+    font-family: 'Courier New', monospace;
+    color: #00ff99;
+  }
+  
+  /* Left side - Inventory List */
+  #cyberpunk-inventory .inventory-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-right: 10px;
+    border-right: 2px solid #00ff99;
+  }
+  
+  #cyberpunk-inventory .coin-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: rgba(10, 10, 15, 0.9);
+    color: #00e6e6;
+    border: 1px solid #0077ff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px #00e6e6;
+  }
+  
+  #cyberpunk-inventory .coin-item:hover {
+    background-color: #0077ff;
+    color: #0a0a0f;
+    box-shadow: 0 0 10px #00ff99;
+  }
+  
+  /* Right side - Coin Details */
+  #cyberpunk-inventory .coin-details {
+    padding: 20px;
+    background-color: rgba(10, 10, 15, 0.9);
+    color: #00ff99;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #00ff99;
+  }
+  
+  #cyberpunk-inventory .coin-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ff99;
+    text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+    margin-bottom: 10px;
+  }
+  
+  #cyberpunk-inventory .coin-info {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  .selectedCoin-details-header img {
+    float: right;
+    border-style: double;
+    width: 25%;
+}

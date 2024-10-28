@@ -42,6 +42,7 @@ const Home = () => {
 
   return (
     <div>
+      <h1 id="titel">News</h1>
       <div id="card-container">
         {articles.map((article, index) => (
           <Card

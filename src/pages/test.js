@@ -1,160 +1,93 @@
-import React, { useState, useEffect } from "react";
-import "../styles/Card.css"
+// src/components/CryptoInfo.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Coin from './coin';
 
-const Carousel = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(false);
+import GlitchingButton from '../components/glitchingButton';
+import '../styles/coin.css';// Optional: Create a CSS file for styling
+function CryptoInfo() {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCoin, setSelectedCoin] = useState(null);
 
-  const slides = [
-    {
-      imageSrc:
-        "https://www.formula1.com/content/dam/fom-website/manual/Misc/2019-Races/Monaco2019/McLarenMonaco19.jpg.transform/9col/image.jpg",
-      altText:
-        "New McLaren wind tunnel 'critical' to future performance, says Tech Director Key",
-      title:
-        "New McLaren wind tunnel 'critical' to future performance, says Tech Director Key",
-      tag: "News",
-      linkText: "find out more",
-      linkIcon: "arrow",
-    },
-    {
-      imageSrc:
-        "https://www.formula1.com/content/dam/fom-website/sutton/2019/Hungary/Saturday/1017645792-LAT-20190803-_2ST5188.jpg.transform/9col-retina/image.jpg",
-      altText: "What To Watch For in the 2019 Hungarian Grand Prix",
-      title: "What To Watch For in the 2019 Hungarian Grand Prix",
-      tag: "Video",
-      linkText: "play video",
-      linkIcon: "play-btn",
-    },
-    {
-      imageSrc:
-        "https://www.formula1.com/content/dam/fom-website/manual/Misc/2019-Races/Austria-2019/Top3Austria2019.jpg.transform/9col-retina/image.jpg",
-      altText:
-        "Hamilton wants harder championship fight from Leclerc and Verstappen",
-      title: "Hamilton wants harder championship fight from Leclerc and Verstappen",
-      tag: "News",
-      linkText: "find out more",
-      linkIcon: "arrow",
-    },
-  ];
-
-  // Effect to update the progress bar
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (progress === 100) {
-        setProgress(0);
-        setActiveSlide((prev) => (prev + 1) % slides.length);
-      } else {
-        setProgress((prev) => prev + 1);
-      }
-    }, 100); // 100 ms intervals to simulate the progress
-
-    return () => clearInterval(interval);
-  }, [progress]);
-
-  // Function to handle click on a post
-  const handlePostClick = (index) => {
-    if (isDisabled) return;
-
-    setIsDisabled(true);
-    setTimeout(() => setIsDisabled(false), 2500); // Disable for 2.5 seconds
-
-    setProgress(0); // Reset progress
-    setActiveSlide(index); // Set the clicked post as active
+  // Function to handle coin selection
+  const showCoinDetails = (coin) => {
+    setSelectedCoin(coin);
   };
 
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const response = await axios.get(
+          'https://api.coingecko.com/api/v3/coins/markets', 
+          {
+            params: {
+              vs_currency: 'usd',
+              order: 'market_cap_desc',
+              per_page: 10,
+              page: 1,
+            }
+          }
+        );
+        setCoins(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCoins();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    <div className="carousel">
-      <div className="progress-bar progress-bar--primary hide-on-desktop">
-        <div className="progress-bar__fill" style={{ width: `${progress}%` }}></div>
-      </div>
-
-      <header className="main-post-wrapper">
-        <div className="slides">
-          {slides.map((slide, index) => (
-            <article
-              key={index}
-              className={`main-post ${
-                index === activeSlide ? "main-post--active" : "main-post--not-active"
-              }`}
-            >
-              <div className="main-post__image">
-                <img src={slide.imageSrc} alt={slide.altText} loading="lazy" />
-              </div>
-              <div className="main-post__content">
-                <div className="main-post__tag-wrapper">
-                  <span className="main-post__tag">{slide.tag}</span>
+    <div>
+    <div className="inventory-container" id="cyberpunk-inventory">
+         {/* Left Side - Coin List */}
+         <div className="inventory-list">
+           {coins.map((coin, index) => (
+             <div 
+               key={index} 
+               className="coin-item" 
+               onClick={() => showCoinDetails(coin)}
+             >
+               {coin.name}
+             </div>
+           ))}
+         </div>
+   
+         {/* Right Side - Coin Details */}
+         <div className="coin-details">
+           {selectedCoin ? (
+             <>
+               <div className="selectedCoin-details-container">
+                  <div className="selectedCoin-details-header">
+                    <img src={selectedCoin.image} alt={selectedCoin.name} width="40" />
+                    <div className="selectedCoin-name-symbol">
+                      <h2>{selectedCoin.name}</h2>
+                      <p>{selectedCoin.symbol.toUpperCase()}</p>
+                    </div>
+                  </div>
+                  <div className="selectedCoin-stat">Rank: {selectedCoin.market_cap_rank}</div>
+                  <div className="selectedCoin-stat">High (24h): ${selectedCoin.high_24h?.toLocaleString()}</div>
+                  <div className="selectedCoin-stat">Low (24h): ${selectedCoin.low_24h?.toLocaleString()}</div>
+                  <div className="selectedCoin-stat">Total Supply: {selectedCoin.total_supply ? selectedCoin.total_supply.toLocaleString() : 'N/A'}</div>
+                  <div className="selectedCoin-link">
+                    <a href={`https://www.selectedCoingecko.com/en/selectedCoins/${selectedCoin.id}`} target="_blank" rel="noreferrer">View on selectedCoinGecko</a>
+                  </div>
                 </div>
-                <h1 className="main-post__title">{slide.title}</h1>
-                <a className="main-post__link" href="#">
-                  <span className="main-post__link-text">{slide.linkText}</span>
-                  {slide.linkIcon === "arrow" ? (
-                    <svg
-                      className="main-post__link-icon main-post__link-icon--arrow"
-                      width="37"
-                      height="12"
-                      viewBox="0 0 37 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0 6H36.0001M36.0001 6L31.0001 1M36.0001 6L31.0001 11"
-                        stroke="white"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="main-post__link-icon main-post__link-icon--play-btn"
-                      width="30"
-                      height="30"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-                        cx="10"
-                        cy="10"
-                        r="9"
-                        stroke="#C20000"
-                        strokeWidth="2"
-                      />
-                      <path d="M14 10L8 6V14L14 10Z" fill="white" />
-                    </svg>
-                  )}
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </header>
+             </>
+           ) : (
+             <div className="coin-name">Select a Coin</div>
+           )}
+         </div>
+       </div>
+   
 
-      {/* Posts Wrapper */}
-      <div className="posts-wrapper hide-on-mobile">
-        {slides.map((slide, index) => (
-          <article
-            key={index}
-            className={`post ${index === activeSlide ? "post--active" : ""} ${
-              isDisabled ? "post--disabled" : ""
-            }`}
-            onClick={() => handlePostClick(index)} // Click to go to this post
-          >
-            <div className="progress-bar">
-              <div
-                className="progress-bar__fill"
-                style={{ width: index === activeSlide ? `${progress}%` : "0%" }}
-              ></div>
-            </div>
-            <header className="post__header">
-              <span className="post__tag">{slide.tag}</span>
-              <p className="post__published">Date</p>
-            </header>
-            <h2 className="post__title">{slide.title}</h2>
-          </article>
-        ))}
-      </div>
     </div>
   );
-};
+}
 
-export default Carousel;
+export default CryptoInfo;

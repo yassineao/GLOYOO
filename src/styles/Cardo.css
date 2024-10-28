@@ -1,6 +1,6 @@
 #card-container {
-    margin-top: 13%;
-    display: flex;
+  margin-top: 8%;
+      display: flex;
     flex-wrap: wrap; /* Allow wrapping of cards if they overflow */
     gap: 20px; /* Space between the cards */
     justify-content: center; /* Center the cards horizontally */
