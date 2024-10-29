@@ -9,8 +9,8 @@
   }
   
   #cyberpunk-inventory {
+    margin-top: 5%;
     place-self: center;
-
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 20px;
@@ -19,11 +19,11 @@
     background: rgba(20, 20, 30, 0.95);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 20px #00ff99, 0 0 40px #0077ff;
-    border: 2px solid #00ff99;
+    box-shadow: 0 0 20px #ff0058, 0 0 40px #d8ff00;
+    border: 2px solid #e100ff;
     font-family: 'Courier New', monospace;
-    color: #00ff99;
-  }
+    color: #ff00dd;
+}
   
   /* Left side - Inventory List */
   #cyberpunk-inventory .inventory-list {
@@ -31,11 +31,11 @@
     flex-direction: column;
     overflow-y: auto;
     padding-right: 10px;
-    border-right: 2px solid #00ff99;
   }
   
   #cyberpunk-inventory .coin-item {
-    padding: 15px;
+    justify-items: center;
+    font-size: 55%;
     margin-bottom: 10px;
     background-color: rgba(10, 10, 15, 0.9);
     color: #00e6e6;
@@ -56,10 +56,10 @@
   #cyberpunk-inventory .coin-details {
     padding: 20px;
     background-color: rgba(10, 10, 15, 0.9);
-    color: #00ff99;
+    color: #ffffff;
     border-radius: 5px;
-    box-shadow: 0 0 10px #00ff99;
-  }
+    box-shadow: 0 0 10px #ff00b6;
+}
   
   #cyberpunk-inventory .coin-name {
     font-size: 28px;
@@ -75,11 +75,25 @@
   }
   .selectedCoin-details-header img {
     float: right;
-    border-style: double;
     width: 25%;
 }
 .selectedCoin-details-graph{
    
-    border-style: double;
     width: 100%;
+}
+#cyberpunk-inventory .inventory-list {
+    display: grid;
+    grid-template-columns: repeat(3, min-content); /* Creates 3 columns */
+    grid-template-rows: repeat(3, auto);           /* Creates 3 rows */
+    gap: 10px;                                     /* Optional spacing between items */
+    overflow-y: auto;
+    padding-right: 10px;
+    justify-content: center;                       /* Centers the grid in the container horizontally */
+    align-content: center;  
+    justify-content: space-around;  
+    overflow-x: hidden;                     /* Centers the grid in the container vertically */
+}
+.selectedCoin-link{
+margin: 10%  !important;
+    max-width: 35%;
 }

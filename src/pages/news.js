@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../components/card';
+import GlitchLoader from '../components/loader';
+
 import GlitchingButton from '../components/glitchingButton';
 import { fetchStockNews } from '../api/news';
 import '../styles/home.css'; // Optional: Create a CSS file for styling
@@ -32,7 +34,7 @@ const Home = () => {
 
   // If loading, show a loading message
   if (loading) {
-    return <div>Loading...</div>;
+    return <GlitchLoader></GlitchLoader>;
   }
 
   // If there's an error, show the error message

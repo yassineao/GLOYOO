@@ -1,7 +1,7 @@
 
 import './App.css';
 import Home from './pages/home';
-import Coin from './components/Coin';
+import CryptoInfo from './pages/coin';
 import News from './pages/news';
 import Newss from './pages/test';
 import Navbar from './components/Navbar';
@@ -15,7 +15,7 @@ function App() {
       <Navbar />
       <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Coin" element={<Coin />} />
+      <Route path="/Coin" element={<CryptoInfo />} />
       <Route path="/News" element={<News />} />
       <Route path="/test" element={<Newss />} />
         

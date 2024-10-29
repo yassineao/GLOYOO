@@ -4,7 +4,6 @@ body {
   background-color: #1d0101;
   font-family: 'Orbitron', sans-serif;
   background-image: url('https://r4.wallpaperflare.com/wallpaper/23/920/850/the-sun-music-palm-trees-background-wallpaper-c9f0384d517a6ddbe617b8af7051962d.jpg');
-  background-size: contain; /* Ensure the image stays within the viewable area */
   background-position: center top; /* Center the image at the top */
   background-repeat: no-repeat; /* Do not repeat the background image */
   background-attachment: fixed; /* Make the background image fixed during scroll */
