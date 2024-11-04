@@ -5,6 +5,8 @@ import CryptoInfo from './pages/coin';
 import News from './pages/news';
 import Newss from './pages/test';
 import Navbar from './components/Navbar';
+import Login from './pages/login';
+import Register from './pages/register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
       <Route path="/Coin" element={<CryptoInfo />} />
       <Route path="/News" element={<News />} />
       <Route path="/test" element={<Newss />} />
+      <Route path="/Register" element={<Register />} />
+      <Route path="/Login" element={<Login />} />
         
       </Routes>
     </Router>
