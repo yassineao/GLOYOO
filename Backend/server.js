@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const axios = require('axios'); // Don't forget to import axios
+const axios = require('axios');
 
 const authRoutes = require('./routes/authRoutes');
 const authenticateToken = require('./middleware/authenticateToken');
@@ -39,7 +39,7 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 });
 
 // CoinMarketCap API key from environment variable
-const API_KEY = '3a1e40df-6617-4305-8439-5eaf717da03b'; // Make sure to set CMC_API_KEY in your .env file
+const API_KEY = "3a1e40df-6617-4305-8439-5eaf717da03b"; // Make sure to set CMC_API_KEY in your .env file
 
 // Route to fetch coin data
 app.get('/api/coin', async (req, res) => {
@@ -67,6 +67,40 @@ app.get('/api/coin', async (req, res) => {
   } catch (error) {
     console.error('Error fetching data from CoinMarketCap API:', error.message);
     res.status(500).json({ error: 'Error fetching data from CoinMarketCap API' });
+  }
+});
+
+// Route to fetch historical data
+app.get('/api/coin/historical', async (req, res) => {
+  const symbol = req.query.symbol || 'BTC';
+  const time_start = req.query.time_start; // Expected format: ISO 8601 string or Unix timestamp
+  const time_end = req.query.time_end;     // Expected format: ISO 8601 string or Unix timestamp
+  const interval = req.query.interval || '5m'; // Default interval
+
+  if (!time_start || !time_end) {
+    return res.status(400).json({ error: 'Please provide time_start and time_end query parameters in ISO 8601 format or Unix timestamp.' });
+  }
+
+  try {
+    const response = await axios.get(
+      'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical',
+      {
+        headers: {
+          'X-CMC_PRO_API_KEY': API_KEY,
+        },
+        params: {
+          symbol,
+          time_start,
+          time_end,
+          interval,
+        },
+      }
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching historical data from CoinMarketCap API:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Error fetching historical data from CoinMarketCap API' });
   }
 });
 

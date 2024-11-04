@@ -1,22 +1,4 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
 
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8f9fa;
-}
 
 /* Main container styling */
 #crypto-dashboard {
@@ -146,4 +128,74 @@ body {
 
 #crypto-dashboard .news-list a:hover {
     text-decoration: underline;
+}
+.coin-category,
+.coin-tags,
+.date-added {
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.coin-description {
+  margin-top: 20px;
+}
+
+.coin-description p {
+  line-height: 1.6;
+}
+
+.coin-stats {
+  margin-top: 20px;
+}
+
+.stat-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stat {
+  flex: 1 1 300px;
+  margin: 10px;
+}
+
+.price-change-stats {
+  margin-top: 20px;
+}
+
+.price-change-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.price-change {
+  flex: 1 1 100px;
+  margin: 10px;
+}
+
+.coin-links {
+  margin-top: 20px;
+}
+
+.coin-links ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.coin-links li {
+  margin-bottom: 5px;
+}
+
+.coin-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.coin-links a:hover {
+  text-decoration: underline;
+}
+p{
+    color: #333;
+}
+h3,h2{
+    color: #333;
 }
