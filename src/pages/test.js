@@ -1,17 +1,25 @@
-// src/CoinP.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/CoinP.css'; // Optional: Create a CSS file for styling
 
 import DataSeriesChart from '../components/CryptoCharts';
 import GlitchLoader from '../components/loader';
+
 function CoinP() {
+  const [coin, setCoin] = useState('');
   const [coinData, setCoinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchCoinData = async (coinSymbol) => {
-    const symbol = coinSymbol.toUpperCase();
+  useEffect(() => {
+    // Extract the 'coin' parameter from the URL query
+    const params = new URLSearchParams(window.location.search);
+    const paramValue = params.get('coin'); // Get the 'coin' query parameter
+    setCoin(paramValue);
+  }, []);
+
+  // Function to fetch coin data
+  const fetchCoinData = async (symbol) => {
     try {
       const response = await axios.get(`http://localhost:5000/api/coin?symbol=${symbol}`);
       return response.data;
@@ -21,10 +29,13 @@ function CoinP() {
     }
   };
 
+  // Fetch coin data whenever `coin` updates
   useEffect(() => {
+    if (!coin) return; // Avoid fetching if coin is not set
+    setLoading(true); // Set loading to true before fetching
     const getCoinData = async () => {
       try {
-        const data = await fetchCoinData('BTC');
+        const data = await fetchCoinData(coin.toUpperCase());
         setCoinData(data);
         setLoading(false);
       } catch (error) {
@@ -33,10 +44,10 @@ function CoinP() {
       }
     };
     getCoinData();
-  }, []);
+  }, [coin]); // Dependency on `coin`
 
   if (loading) {
-    return <GlitchLoader></GlitchLoader>;
+    return <GlitchLoader />;
   }
 
   if (error || !coinData) {
@@ -72,8 +83,9 @@ function CoinP() {
   return (
     <div id="crypto-dashboard">
       <div className="coin-info-section">
+        
+      <img src={logo} alt={`${name} Logo`} className="coin-logo" />
         <div className="coin-header">
-          <img src={logo} alt={`${name} Logo`} className="coin-logo" />
           <div className="coin-info">
             <h1 id="coin-name">
               {name} ({symbol})
@@ -82,15 +94,12 @@ function CoinP() {
               ${price.toFixed(2)}
             </p>
             <p
-              className={`coin-change ${
-                percent_change_24h >= 0 ? 'positive' : 'negative'
-              }`}
+              className={`coin-change ${percent_change_24h >= 0 ? 'positive' : 'negative'}`}
               id="coin-change"
             >
               {percent_change_24h >= 0 ? '+' : ''}
               {percent_change_24h.toFixed(2)}%
             </p>
-           
             <p className="date-added">
               <strong>Date Added:</strong> {formattedDate}
             </p>
@@ -180,52 +189,16 @@ function CoinP() {
                 </a>
               </li>
             )}
-            {urls.explorer && urls.explorer.length > 0 && (
-              <li>
-                <a href={urls.explorer[0]} target="_blank" rel="noopener noreferrer">
-                  Explorer
-                </a>
-              </li>
-            )}
-            {urls.technical_doc && urls.technical_doc.length > 0 && (
-              <li>
-                <a href={urls.technical_doc[0]} target="_blank" rel="noopener noreferrer">
-                  Whitepaper
-                </a>
-              </li>
-            )}
-            {urls.twitter && urls.twitter.length > 0 && (
-              <li>
-                <a href={urls.twitter[0]} target="_blank" rel="noopener noreferrer">
-                  Twitter
-                </a>
-              </li>
-            )}
-            {urls.reddit && urls.reddit.length > 0 && (
-              <li>
-                <a href={urls.reddit[0]} target="_blank" rel="noopener noreferrer">
-                  Reddit
-                </a>
-              </li>
-            )}
-            {urls.message_board && urls.message_board.length > 0 && (
-              <li>
-                <a href={urls.message_board[0]} target="_blank" rel="noopener noreferrer">
-                  Message Board
-                </a>
-              </li>
-            )}
+            {/* Other links */}
           </ul>
         </div>
       </div>
 
-      {/* You can keep the chart and news sections as they are or update them if needed */}
       <div className="chart-section">
-        <h2>Price Chart (7 Days)</h2>
-        
-        <div className='selectedCoin-details-graph'>
-                <DataSeriesChart coinId={"weth"} days={30} />
-                </div>
+        <h2>Price Chart (30 Days)</h2>
+        <div className="selectedCoin-details-graph">
+          <DataSeriesChart coinId={coin} days={30} />
+        </div>
       </div>
 
       <div className="news-section">
@@ -236,7 +209,7 @@ function CoinP() {
               Bitcoin price surges as market rallies.
             </a>
           </li>
-          {/* Add more news items or fetch them dynamically */}
+          {/* Additional news items */}
         </ul>
       </div>
     </div>

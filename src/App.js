@@ -3,7 +3,7 @@ import './App.css';
 import Home from './pages/home';
 import CryptoInfo from './pages/coin';
 import News from './pages/news';
-import Newss from './pages/test';
+import CoinP from './pages/test';
 import Navbar from './components/Navbar';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -19,7 +19,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/Coin" element={<CryptoInfo />} />
       <Route path="/News" element={<News />} />
-      <Route path="/test" element={<Newss />} />
+      <Route path="/test" element={<CoinP coin={'WETH'} />} />
       <Route path="/Register" element={<Register />} />
       <Route path="/Login" element={<Login />} />
         

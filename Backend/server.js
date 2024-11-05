@@ -70,15 +70,14 @@ app.get('/api/coin', async (req, res) => {
   }
 });
 
+app.use(express.json()); // Middleware to parse JSON bodies
+
 // Route to fetch historical data
-app.get('/api/coin/historical', async (req, res) => {
-  const symbol = req.query.symbol || 'BTC';
-  const time_start = req.query.time_start; // Expected format: ISO 8601 string or Unix timestamp
-  const time_end = req.query.time_end;     // Expected format: ISO 8601 string or Unix timestamp
-  const interval = req.query.interval || '5m'; // Default interval
+app.post('/api/coin/historical', async (req, res) => {
+  const { symbol = 'BTC', time_start, time_end, interval = '5m' } = req.body; // Get parameters from request body
 
   if (!time_start || !time_end) {
-    return res.status(400).json({ error: 'Please provide time_start and time_end query parameters in ISO 8601 format or Unix timestamp.' });
+    return res.status(400).json({ error: 'Please provide time_start and time_end in ISO 8601 format or Unix timestamp.' });
   }
 
   try {
@@ -103,6 +102,7 @@ app.get('/api/coin/historical', async (req, res) => {
     res.status(500).json({ error: 'Error fetching historical data from CoinMarketCap API' });
   }
 });
+
 
 // Start the server
 app.listen(PORT, () => {

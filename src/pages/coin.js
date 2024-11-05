@@ -33,6 +33,7 @@ function CryptoInfo() {
           }
         );
         setCoins(response.data);
+        console.log(response.data)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -86,12 +87,12 @@ function CryptoInfo() {
                   <div className="selectedCoin-stat">Low (24h): ${selectedCoin.low_24h?.toLocaleString()}</div>
                   <div className="selectedCoin-stat">Total Supply: {selectedCoin.total_supply ? selectedCoin.total_supply.toLocaleString() : 'N/A'}</div>
                   <div className="selectedCoin-link">
-                   
-                    <a href={`https://www.selectedCoingecko.com/en/selectedCoins/${selectedCoin.id}`} target="_blank" rel="noreferrer"> <GlitchingButton name={"more info"} aria={true}></GlitchingButton></a>
+                  <a href={`/test?coin=${encodeURIComponent(selectedCoin.symbol)}`} target="_blank" rel="noreferrer">
+                  <GlitchingButton name={"more info"} aria={true}></GlitchingButton></a>
                   </div>
                 </div>
                 <div className='selectedCoin-details-graph'>
-                <DataSeriesChart coinId={selectedCoin.id} days={30} />
+                <DataSeriesChart coinId={selectedCoin.name} days={30} />
                 </div>
              </>
            ) : (
