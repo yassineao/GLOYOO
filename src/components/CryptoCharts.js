@@ -8,27 +8,35 @@ const DataSeriesChart = ({ coinId = 'bitcoin', days = 7 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const API_KEY = '35701ffd-c0bb-4deb-80e7-947e91e96e4e'; // Replace with your actual API key
+
   useEffect(() => {
     const fetchCoinData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(
-          `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart`,
+        const response = await axios.post(
+          'https://api.livecoinwatch.com/coins/single/history',
           {
-            params: {
-              vs_currency: 'usd',
-              days: days,
-              interval: 'daily',
+            code: coinId.toUpperCase(), // LiveCoinWatch requires the coin code in uppercase
+            currency: 'USD',
+            start: Date.now() - days * 24 * 60 * 60 * 1000, // Calculate start date
+            end: Date.now(),
+            meta: true,
+          },
+          {
+            headers: {
+              'x-api-key': API_KEY,
+              'Content-Type': 'application/json',
             },
           }
         );
 
-        const prices = response.data.prices.map((price) =>
-          parseFloat(price[1].toFixed(4)) // Limit to four decimal places
+        const prices = response.data.history.map((point) =>
+          parseFloat(point.rate.toFixed(4)) // Limit to four decimal places
         );
-        const dates = response.data.prices.map((price) =>
-          new Date(price[0]).toLocaleDateString('en-US', {
+        const dates = response.data.history.map((point) =>
+          new Date(point.date).toLocaleDateString('en-US', {
             day: 'numeric',
             month: 'short',
           })

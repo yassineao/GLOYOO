@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/CoinP.css'; // Optional: Create a CSS file for styling
-
+import Radio from '../components/Radio';
 import DataSeriesChart from '../components/CryptoCharts';
 import GlitchLoader from '../components/loader';
-
+import { fetchStockNews } from '../api/news';
 function CoinP() {
+  const [selectedValue, setSelectedValue] = useState('valueIs-1'); // Default value
+
   const [coin, setCoin] = useState('');
   const [coinData, setCoinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [articles, setArticles] = useState([]);
+  const handleValueChange = (newValue) => {
+    setSelectedValue(newValue); // Update value from Radio component
+  };
   useEffect(() => {
     // Extract the 'coin' parameter from the URL query
     const params = new URLSearchParams(window.location.search);
     const paramValue = params.get('coin'); // Get the 'coin' query parameter
     setCoin(paramValue);
   }, []);
-
+  useEffect(() => {
+   
+  }, []);
   // Function to fetch coin data
   const fetchCoinData = async (symbol) => {
     try {
@@ -44,6 +52,18 @@ function CoinP() {
       }
     };
     getCoinData();
+    const getNews = async () => {
+      try {
+        const articles = await fetchStockNews(coin); // Call the API function
+        setArticles(articles); // Save the articles data
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (err) {
+        setError('Failed to fetch news');
+        setLoading(false);
+      }
+    };
+
+    getNews();
   }, [coin]); // Dependency on `coin`
 
   if (loading) {
@@ -196,6 +216,9 @@ function CoinP() {
 
       <div className="chart-section">
         <h2>Price Chart (30 Days)</h2>
+        <h1>Selected Value: {selectedValue}</h1>
+        <Radio selectedValue={selectedValue} onChange={handleValueChange} />
+      
         <div className="selectedCoin-details-graph">
           <DataSeriesChart coinId={coin} days={30} />
         </div>
@@ -205,10 +228,18 @@ function CoinP() {
         <h2>Latest News</h2>
         <ul className="news-list">
           <li>
-            <a href="#" target="_blank" rel="noopener noreferrer">
-              Bitcoin price surges as market rallies.
-            </a>
+            
           </li>
+          {articles.map((article, index) => (
+            
+            <li>
+              
+              <a href={article.url} target="_blank" rel="noopener noreferrer">
+              {article.title}
+          </a>
+             </li>
+          
+        ))}
           {/* Additional news items */}
         </ul>
       </div>

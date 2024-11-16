@@ -77,9 +77,10 @@
     float: right;
     width: 25%;
 }
-.selectedCoin-details-graph{
-   
-    width: 100%;
+.selectedCoin-details-graph {
+  width: 100%;
+  background: black;
+  border-radius: 15px;
 }
 #cyberpunk-inventory .inventory-list {
     display: grid;
