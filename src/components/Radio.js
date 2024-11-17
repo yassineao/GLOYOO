@@ -34,6 +34,7 @@ const Radio = ({ selectedValue, onChange }) => {
 
 const StyledWrapper = styled.div`
   .container {
+    margin-top: 5%;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-style: italic;
     font-weight: bold;

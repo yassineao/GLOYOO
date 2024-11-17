@@ -5,6 +5,8 @@ import GlitchLoader from '../components/loader';
 import Carousel from '../components/news';
 import { fetchStockNews } from '../api/news';
 import '../styles/home.css';// Optional: Create a CSS file for styling
+
+import '../styles/font.css'; // Optional: Create a CSS file for styling
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const getNews = async () => {
       try {
-        const articles = await fetchStockNews(); // Call the API function
+        const articles = await fetchStockNews("stocks"); // Call the API function
         const slidesData = articles.slice(0, 3).map(article => ({
           imageSrc: article.urlToImage,
           altText: article.title,
@@ -54,6 +56,16 @@ const Home = () => {
         
          <GlitchingButton name={"united"}></GlitchingButton>
          </section>
+         <div id="neon-container">
+  <div id="container">
+    <a href="#">Neon 1</a>
+    <a href="#">Neon 2</a>
+    <a href="#">Neon 3</a>
+    <a href="#">Neon 4</a>
+    <a href="#">Neon 5</a>
+    <a href="#">Neon 6</a>
+  </div>
+</div>
     </div>
   );
 };

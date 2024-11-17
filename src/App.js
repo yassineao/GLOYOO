@@ -8,6 +8,12 @@ import Navbar from './components/Navbar';
 import Login from './pages/login';
 import Register from './pages/register';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import '@fontsource/monoton';
+import '@fontsource/iceland';
+import '@fontsource/pacifico';
+import '@fontsource/press-start-2p';
+import '@fontsource/audiowide';
+import '@fontsource/vampiro-one';
 
 function App() {
   return (

@@ -5,6 +5,8 @@ import Radio from '../components/Radio';
 import DataSeriesChart from '../components/CryptoCharts';
 import GlitchLoader from '../components/loader';
 import { fetchStockNews } from '../api/news';
+import '../styles/font.css'; // Optional: Create a CSS file for styling
+
 function CoinP() {
   const [selectedValue, setSelectedValue] = useState('valueIs-1'); // Default value
 
@@ -102,6 +104,7 @@ function CoinP() {
 
   return (
     <div id="crypto-dashboard">
+      
       <div className="coin-info-section">
         
       <img src={logo} alt={`${name} Logo`} className="coin-logo" />
@@ -215,9 +218,13 @@ function CoinP() {
       </div>
 
       <div className="chart-section">
-        <h2>Price Chart (30 Days)</h2>
-        <h1>Selected Value: {selectedValue}</h1>
-        <Radio selectedValue={selectedValue} onChange={handleValueChange} />
+      <div id="neon-container">
+  <a  class="neon1">Price Chart in </a>
+    <a  class="neon2">{selectedValue}</a>
+    <Radio selectedValue={selectedValue} onChange={handleValueChange} />
+
+</div>
+
       
         <div className="selectedCoin-details-graph">
           <DataSeriesChart coinId={coin} days={30} />
@@ -225,7 +232,11 @@ function CoinP() {
       </div>
 
       <div className="news-section">
-        <h2>Latest News</h2>
+      <div id="neon-container">
+  <div id="container">
+    <a  class="neon4">News</a>
+  </div>
+</div>
         <ul className="news-list">
           <li>
             

@@ -18,9 +18,9 @@ const DataSeriesChart = ({ coinId = 'bitcoin', days = 7 }) => {
         const response = await axios.post(
           'https://api.livecoinwatch.com/coins/single/history',
           {
-            code: coinId.toUpperCase(), // LiveCoinWatch requires the coin code in uppercase
+            code: coinId.toUpperCase(),
             currency: 'USD',
-            start: Date.now() - days * 24 * 60 * 60 * 1000, // Calculate start date
+            start: Date.now() - days * 24 * 60 * 60 * 1000,
             end: Date.now(),
             meta: true,
           },
@@ -33,7 +33,7 @@ const DataSeriesChart = ({ coinId = 'bitcoin', days = 7 }) => {
         );
 
         const prices = response.data.history.map((point) =>
-          parseFloat(point.rate.toFixed(4)) // Limit to four decimal places
+          parseFloat(point.rate.toFixed(4))
         );
         const dates = response.data.history.map((point) =>
           new Date(point.date).toLocaleDateString('en-US', {
@@ -64,69 +64,108 @@ const DataSeriesChart = ({ coinId = 'bitcoin', days = 7 }) => {
     chart: {
       type: 'area',
       height: '100%',
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: 'Orbitron, sans-serif',
       animations: {
         enabled: true,
-        easing: 'easeinout',
-        speed: 800,
+        easing: 'easeout',
+        speed: 1500,
+        dynamicAnimation: {
+          speed: 1000,
+        },
       },
       toolbar: {
-        show: false,
+        show: true,
       },
+      background: 'linear-gradient(145deg, #1d1f27, #222835)', // Holographic-like background
+      foreColor: '#FFF',
     },
-    colors: ['#00FFC8'],
+    colors: ['#19F6E8'],
     xaxis: {
       categories: categories,
       labels: {
         style: {
-          colors: '#00FFFF', // Neon cyan
-          fontFamily: 'Orbitron, sans-serif',
+          colors: '#8AFCFF', // Neon light blue
+          fontSize: '12px',
         },
+      },
+      axisBorder: {
+        show: true,
+        color: '#8AFCFF',
       },
     },
     yaxis: {
       labels: {
         style: {
-          colors: '#FF00FF', // Neon pink
-          fontFamily: 'Orbitron, sans-serif',
+          colors: '#FC74FF', // Neon magenta
+          fontSize: '12px',
         },
       },
     },
     tooltip: {
       enabled: true,
+      theme: 'dark',
       x: {
         format: 'dd MMM',
       },
-      theme: 'dark',
+      marker: {
+        show: true,
+      },
     },
     grid: {
-      borderColor: '#444',
-      strokeDashArray: 5,
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      strokeDashArray: 4,
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
       curve: 'smooth',
-      width: 2,
+      width: 3,
+      colors: ['#00FFFF'],
     },
     fill: {
       type: 'gradient',
       gradient: {
+        shade: 'dark',
+        gradientToColors: ['#00FFFF'], // Neon cyan glow
         shadeIntensity: 1,
-        opacityFrom: 0.6,
-        opacityTo: 0,
+        type: 'vertical',
+        opacityFrom: 0.5,
+        opacityTo: 0.1,
         stops: [0, 90, 100],
+      },
+    },
+    markers: {
+      size: 5,
+      colors: ['#FC74FF'],
+      strokeWidth: 2,
+      strokeColors: '#FFF',
+      hover: {
+        size: 8,
       },
     },
   };
 
   return (
-    <div id="data-series-chart" style={{ width: '100%', height: '400px' }}>
+    <div
+      id="data-series-chart"
+      style={{
+        width: '100%',
+        height: '500px',
+        background: 'radial-gradient(circle, #2a2d37, #1a1c23)', // Glow effect for container
+        padding: '20px',
+        borderRadius: '15px',
+        boxShadow: '0 0 30px rgba(0, 255, 255, 0.2)',
+      }}
+    >
       {loading ? (
-        <p style={{ textAlign: 'center', color: '#fff' }}>Loading...</p>
+        <p style={{ textAlign: 'center', color: '#00FFFF', fontSize: '1.5rem' }}>
+          Loading futuristic data...
+        </p>
       ) : error ? (
-        <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
+        <p style={{ textAlign: 'center', color: 'red', fontSize: '1.5rem' }}>
+          {error}
+        </p>
       ) : (
         <Chart options={options} series={chartData} type="area" height="100%" />
       )}
