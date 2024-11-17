@@ -227,7 +227,7 @@ function CoinP() {
 
       
         <div className="selectedCoin-details-graph">
-          <DataSeriesChart coinId={coin} days={30} />
+          <DataSeriesChart coinId={coin} days={1} />
         </div>
       </div>
 
