@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import axios from 'axios';
 
+import GlitchLoader from '../components/loader';
+
 const DataSeriesChart = ({ coinId = 'bitcoin' }) => {
   const [chartData, setChartData] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -53,13 +55,14 @@ const DataSeriesChart = ({ coinId = 'bitcoin' }) => {
         const prices = response.data.history.map((point) =>
           parseFloat(point.rate.toFixed(4))
         );
+
         const dates = response.data.history.map((point) =>
           new Date(point.date).toLocaleDateString('en-US', {
             day: interval === 'hourly' ? undefined : 'numeric',
             month: interval === 'hourly' ? undefined : 'short',
             hour: interval === 'hourly' ? '2-digit' : undefined,
-            minute: isZoomed ? '2-digit' : undefined,
-            second: isZoomed ? '2-digit' : undefined,
+            minute: interval === 'hourly' ? '2-digit' : undefined,
+            second: isZoomed && interval === 'hourly' ? '2-digit' : undefined,
           })
         );
 
@@ -106,10 +109,10 @@ const DataSeriesChart = ({ coinId = 'bitcoin' }) => {
       },
       events: {
         zoomed: () => {
-          setIsZoomed(true); // Enable detailed time format
+          if (interval === 'hourly') setIsZoomed(true); // Enable detailed time format only for hourly
         },
         beforeResetZoom: () => {
-          setIsZoomed(false); // Reset time format when zoom is reset
+          if (interval === 'hourly') setIsZoomed(false); // Reset time format only for hourly
         },
       },
       background: 'linear-gradient(145deg, #1d1f27, #222835)',
@@ -141,7 +144,12 @@ const DataSeriesChart = ({ coinId = 'bitcoin' }) => {
       enabled: true,
       theme: 'dark',
       x: {
-        format: isZoomed ? 'HH:mm:ss dd MMM' : 'dd MMM',
+        format:
+          interval === 'hourly' && isZoomed
+            ? 'HH:mm:ss dd MMM'
+            : interval === 'hourly'
+            ? 'HH:mm dd MMM'
+            : 'dd MMM',
       },
       marker: {
         show: true,
@@ -242,9 +250,7 @@ const DataSeriesChart = ({ coinId = 'bitcoin' }) => {
         </button>
       </div>
       {loading ? (
-        <p style={{ textAlign: 'center', color: '#00FFFF', fontSize: '1.5rem' }}>
-          Loading futuristic data...
-        </p>
+        <GlitchLoader />
       ) : error ? (
         <p style={{ textAlign: 'center', color: 'red', fontSize: '1.5rem' }}>
           {error}

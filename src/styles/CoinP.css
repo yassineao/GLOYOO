@@ -29,7 +29,6 @@
 #crypto-dashboard .coin-header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 #crypto-dashboard .coin-logo {
@@ -139,7 +138,6 @@
 }
 
 .coin-description {
-  margin-top: 20px;
 }
 
 .coin-description p {

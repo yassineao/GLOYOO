@@ -1,0 +1,64 @@
+/* Coin Container */
+.coin {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(145deg, #f0c27b, #e2ac59); /* Gold-like color */
+    border-radius: 50%;
+    box-shadow: inset -4px -4px 10px #d7a152, inset 4px 4px 10px #f8d492;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+    transform: rotateX(20deg); /* Slight 3D tilt */
+    perspective: 1000px; /* 3D depth */
+  }
+  
+  /* Coin Front Design */
+  .coin .front {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle, #f8d492, #e2ac59);
+    border-radius: 50%;
+    box-shadow: inset -2px -2px 5px #c18b3b, inset 4px 4px 10px #f7e3b6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .coin .front span {
+    font-size: 3rem;
+    color: #b37432;
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    text-shadow: 0px 1px 2px #fff, 0px -1px 1px #8c5a1c;
+  }
+  
+  /* Add a Beveled Edge */
+  .coin::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, #e6b96a, #cf923e);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  
+  /* Add an Outer Glow */
+  .coin::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 170px;
+    height: 170px;
+    background: radial-gradient(circle, transparent, rgba(255, 215, 0, 0.3));
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+  }
+  

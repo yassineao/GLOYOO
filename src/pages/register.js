@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/login.css';// Optional: Create a CSS file for styling
-
+import '../styles/coiin.css';
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

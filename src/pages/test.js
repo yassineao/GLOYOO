@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/CoinP.css'; // Optional: Create a CSS file for styling
-import Radio from '../components/Radio';
+import '../styles/CoinP.css';
 import DataSeriesChart from '../components/CryptoCharts';
 import GlitchLoader from '../components/loader';
 import { fetchStockNews } from '../api/news';
-import '../styles/font.css'; // Optional: Create a CSS file for styling
+import '../styles/font.css';
+import '../styles/coiin.css';
+import Caard from '../components/cardd';
 
 function CoinP() {
-  const [selectedValue, setSelectedValue] = useState('valueIs-1'); // Default value
-
   const [coin, setCoin] = useState('');
   const [coinData, setCoinData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
+  const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
-  const handleValueChange = (newValue) => {
-    setSelectedValue(newValue); // Update value from Radio component
-  };
+
   useEffect(() => {
     // Extract the 'coin' parameter from the URL query
     const params = new URLSearchParams(window.location.search);
     const paramValue = params.get('coin'); // Get the 'coin' query parameter
     setCoin(paramValue);
   }, []);
-  useEffect(() => {
-   
-  }, []);
+
   // Function to fetch coin data
   const fetchCoinData = async (symbol) => {
     try {
@@ -39,46 +33,38 @@ function CoinP() {
     }
   };
 
-  // Fetch coin data whenever `coin` updates
+  // Fetch coin data and news whenever `coin` updates
   useEffect(() => {
     if (!coin) return; // Avoid fetching if coin is not set
     setLoading(true); // Set loading to true before fetching
-    const getCoinData = async () => {
+    const fetchData = async () => {
       try {
-        const data = await fetchCoinData(coin.toUpperCase());
+        const [data, articlesData] = await Promise.all([
+          fetchCoinData(coin.toUpperCase()),
+          fetchStockNews(coin),
+        ]);
         setCoinData(data);
-        setLoading(false);
+        setArticles(articlesData);
       } catch (error) {
-        setError(true);
+        setError(error.message || 'Failed to fetch data');
+      } finally {
         setLoading(false);
       }
     };
-    getCoinData();
-    const getNews = async () => {
-      try {
-        const articles = await fetchStockNews(coin); // Call the API function
-        setArticles(articles); // Save the articles data
-        setLoading(false); // Set loading to false once data is fetched
-      } catch (err) {
-        setError('Failed to fetch news');
-        setLoading(false);
-      }
-    };
-
-    getNews();
-  }, [coin]); // Dependency on `coin`
+    fetchData();
+  }, [coin]);
 
   if (loading) {
     return <GlitchLoader />;
   }
 
   if (error || !coinData) {
-    return <div>Error loading coin data.</div>;
+    return <div>Error loading coin data: {error}</div>;
   }
 
   // Destructure data for easier access
   const { info, quote } = coinData;
-  const { name, symbol, logo, category, description, date_added, urls, tags } = info;
+  const { name, symbol, logo, description, date_added, urls } = info;
   const {
     price,
     volume_24h,
@@ -92,7 +78,6 @@ function CoinP() {
     market_cap,
     market_cap_dominance,
     fully_diluted_market_cap,
-    last_updated,
   } = quote.quote.USD;
 
   const circulatingSupply = quote.circulating_supply;
@@ -104,106 +89,88 @@ function CoinP() {
 
   return (
     <div id="crypto-dashboard">
-      
       <div className="coin-info-section">
-        
-      <img src={logo} alt={`${name} Logo`} className="coin-logo" />
+        <img src={logo} alt={`${name} Logo`} className="coin-logo" />
         <div className="coin-header">
           <div className="coin-info">
-            <h1 id="coin-name">
-              {name} ({symbol})
-            </h1>
+            <div id="neon-container">
+              <a className="neon5">
+                {name} ({symbol})
+              </a>
+            </div>
             <p className="coin-price" id="coin-price">
-              ${price.toFixed(2)}
+              ${price.toFixed(2)}({percent_change_24h >= 0 ? '+' : ''}
+                {percent_change_24h.toFixed(2)}%)
+           
+              
             </p>
-            <p
-              className={`coin-change ${percent_change_24h >= 0 ? 'positive' : 'negative'}`}
-              id="coin-change"
-            >
-              {percent_change_24h >= 0 ? '+' : ''}
-              {percent_change_24h.toFixed(2)}%
-            </p>
-            <p className="date-added">
-              <strong>Date Added:</strong> {formattedDate}
-            </p>
+            
           </div>
         </div>
 
         <div className="coin-description">
-          <h2>Description</h2>
+          <div id="neon-container">
+            <h5>
+              <a className="neon2">Description</a>
+            </h5>
+          </div>
           <p>{description}</p>
         </div>
 
         <div className="coin-stats">
-          <h2>Market Data</h2>
-          <div className="stat-grid">
-            <div className="stat">
-              <h3>Market Cap</h3>
-              <p id="market-cap">${market_cap.toLocaleString()}</p>
-            </div>
-            <div className="stat">
-              <h3>24h Volume</h3>
-              <p id="volume">${volume_24h.toLocaleString()}</p>
-            </div>
-            <div className="stat">
-              <h3>Circulating Supply</h3>
-              <p id="circulating-supply">
-                {circulatingSupply.toLocaleString()} {symbol}
-              </p>
-            </div>
-            <div className="stat">
-              <h3>Total Supply</h3>
-              <p id="total-supply">
-                {totalSupply.toLocaleString()} {symbol}
-              </p>
-            </div>
-            <div className="stat">
-              <h3>Max Supply</h3>
-              <p id="max-supply">
-                {maxSupply !== 'N/A' ? maxSupply.toLocaleString() : 'N/A'} {symbol}
-              </p>
-            </div>
-            <div className="stat">
-              <h3>Market Cap Dominance</h3>
-              <p id="market-cap-dominance">{market_cap_dominance.toFixed(2)}%</p>
-            </div>
-            <div className="stat">
-              <h3>Fully Diluted Market Cap</h3>
-              <p id="fully-diluted-market-cap">${fully_diluted_market_cap.toLocaleString()}</p>
-            </div>
-            <div className="stat">
-              <h3>Volume Change 24h</h3>
-              <p id="volume-change-24h">{volume_change_24h.toFixed(2)}%</p>
-            </div>
+          <div id="neon-container">
+            <a className="neon2">Market Data</a>
           </div>
+          {[
+            { name: 'Market Cap', content: `$${market_cap.toLocaleString()}` },
+            { name: '24h Volume', content: `$${volume_24h.toLocaleString()}` },
+            { name: 'Circulating Supply', content: `${circulatingSupply.toLocaleString()} ${symbol}` },
+            { name: 'Total Supply', content: `${totalSupply.toLocaleString()} ${symbol}` },
+            {
+              name: 'Max Supply',
+              content: maxSupply !== 'N/A' ? `${maxSupply.toLocaleString()} ${symbol}` : 'N/A',
+            },
+            { name: 'Market Cap Dominance', content: `${market_cap_dominance.toFixed(2)}%` },
+            {
+              name: 'Fully Diluted Market Cap',
+              content: `$${fully_diluted_market_cap.toLocaleString()}`,
+            },
+            { name: 'Volume Change 24h', content: `${volume_change_24h.toFixed(2)}%` },
+          ].map((stat, index) => (
+            <Caard key={index} name={stat.name} content={stat.content} />
+          ))}
         </div>
 
         <div className="price-change-stats">
-          <h2>Price Changes</h2>
+          <div id="neon-container">
+            <h5>
+              <a className="neon2">Price Change</a>
+            </h5>
+          </div>
           <div className="price-change-grid">
-            <div className="price-change">
-              <p><strong>1h:</strong> {percent_change_1h.toFixed(2)}%</p>
-            </div>
-            <div className="price-change">
-              <p><strong>24h:</strong> {percent_change_24h.toFixed(2)}%</p>
-            </div>
-            <div className="price-change">
-              <p><strong>7d:</strong> {percent_change_7d.toFixed(2)}%</p>
-            </div>
-            <div className="price-change">
-              <p><strong>30d:</strong> {percent_change_30d.toFixed(2)}%</p>
-            </div>
-            <div className="price-change">
-              <p><strong>60d:</strong> {percent_change_60d.toFixed(2)}%</p>
-            </div>
-            <div className="price-change">
-              <p><strong>90d:</strong> {percent_change_90d.toFixed(2)}%</p>
-            </div>
+            {[
+              { label: '1h', value: percent_change_1h },
+              { label: '24h', value: percent_change_24h },
+              { label: '7d', value: percent_change_7d },
+              { label: '30d', value: percent_change_30d },
+              { label: '60d', value: percent_change_60d },
+              { label: '90d', value: percent_change_90d },
+            ].map((change, index) => (
+              <div className="price-change" key={index}>
+                <p>
+                  <strong>{change.label}:</strong> {change.value.toFixed(2)}%
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="coin-links">
-          <h2>Resources</h2>
+          <div id="neon-container">
+            <h5>
+              <a className="neon2">Resources</a>
+            </h5>
+          </div>
           <ul>
             {urls.website && urls.website.length > 0 && (
               <li>
@@ -212,46 +179,37 @@ function CoinP() {
                 </a>
               </li>
             )}
-            {/* Other links */}
+            {/* Add other links as needed */}
           </ul>
         </div>
       </div>
 
       <div className="chart-section">
-      <div id="neon-container">
-  <a  class="neon1">Price Chart in </a>
-    <a  class="neon2">{selectedValue}</a>
-    <Radio selectedValue={selectedValue} onChange={handleValueChange} />
-
-</div>
-
-      
+        <div id="neon-container">
+          <a className="neon1">Price Chart in </a>
+        </div>
         <div className="selectedCoin-details-graph">
           <DataSeriesChart coinId={coin} days={1} />
         </div>
       </div>
 
       <div className="news-section">
-      <div id="neon-container">
-  <div id="container">
-    <a  class="neon4">News</a>
-  </div>
-</div>
+        <div id="neon-container">
+          <div id="container">
+            <a className="neon4">News</a>
+          </div>
+        </div>
         <ul className="news-list">
-          <li>
-            
-          </li>
           {articles.map((article, index) => (
+            <li key={index}>
+              <div id="neon-container">
+          <a href={article.url} target="_blank" rel="noopener noreferrer" className="neon4">
+                {article.title}
+              </a>
+        </div>
             
-            <li>
-              
-              <a href={article.url} target="_blank" rel="noopener noreferrer">
-              {article.title}
-          </a>
-             </li>
-          
-        ))}
-          {/* Additional news items */}
+            </li>
+          ))}
         </ul>
       </div>
     </div>
