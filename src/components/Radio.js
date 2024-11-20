@@ -1,32 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
-const Radio = ({ selectedValue, onChange }) => {
-    const handleChange = (event) => {
-      onChange(event.target.value); // Notify parent of the change
-    };
+
+const Radio = ({ options, selectedValue, onChange }) => {
+  const handleChange = (event) => {
+    onChange(event.target.value);
+  };
   return (
     <StyledWrapper>
       <form className="container">
-      <input className="input-btn" type="radio" id="valueIs-1" name="valueIs-radio" defaultChecked onChange={handleChange} defaultValue="valueIs-1"  checked={selectedValue === 'valueIs-1'}/>
-        <label className="neon-btn" htmlFor="valueIs-1">
-          <span className="span" />
-          <span className="txt">day</span>
-        </label>
-        <input className="input-btn" type="radio" id="valueIs-2" name="valueIs-radio" defaultValue="valueIs-2" onChange={handleChange} checked={selectedValue === 'valueIs-2'} />
-        <label className="neon-btn" htmlFor="valueIs-2">
-          <span className="span" />
-          <span className="txt">  month</span>
-        </label>
-        <input className="input-btn" type="radio" id="valueIs-3" name="valueIs-radio"  defaultValue="valueIs-3" onChange={handleChange} checked={selectedValue === 'valueIs-3'} />
-        <label className="neon-btn" htmlFor="valueIs-3">
-          <span className="span" />
-          <span className="txt">  year</span>
-        </label>
-        <input className="input-btn" type="radio" id="valueIs-4" name="valueIs-radio" defaultValue="valueIs-4"  onChange={handleChange} checked={selectedValue === 'valueIs-4'}/>
-        <label className="neon-btn" htmlFor="valueIs-4">
-          <span className="span" />
-          <span className="txt">  lol</span>
-        </label>
+        {options.map((option, index) => (
+          <React.Fragment key={option.value}>
+            <input
+              className="input-btn"
+              type="radio"
+              id={`valueIs-${index}`}
+              name="valueIs-radio"
+              value={option.value}
+              onChange={handleChange}
+              checked={selectedValue === option.value}
+            />
+            <label className="neon-btn" htmlFor={`valueIs-${index}`}>
+              <span className="span" />
+              <span className="txt">{option.label}</span>
+            </label>
+          </React.Fragment>
+        ))}
       </form>
     </StyledWrapper>
   );
@@ -68,7 +66,6 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5em 5em;
     text-align: center; /* Center the text within the button */
     background: transparent;
     position: relative;

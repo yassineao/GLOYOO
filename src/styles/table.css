@@ -1,0 +1,98 @@
+/* Cyberpunk/Futuristic Table CSS with Border Radius */
+
+/* Apply styles only to the table with id 'cyberpunk-table' */
+#cyberpunk-table {
+    width: 80%;
+    margin: 50px auto;
+    /* Change border-collapse to 'separate' to enable border-radius */
+    border-collapse: separate;
+    border-spacing: 0; /* Remove spacing between cells */
+    background-color: rgba(20, 20, 20, 0.9); /* Slight transparency */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Neon glow effect */
+    border: none;
+    border-radius: 16px; /* Add border radius */
+    overflow: hidden; /* Clip overflowing content */
+}
+
+#cyberpunk-table caption {
+    caption-side: top;
+    color: #0ff;
+    font-size: 2em;
+    margin-bottom: 20px;
+    animation: neonGlow 1.5s infinite alternate;
+}
+
+#cyberpunk-table thead {
+    background-color: rgba(0, 255, 255, 0.2); /* Neon cyan header */
+}
+
+#cyberpunk-table thead th {
+    padding: 15px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(0, 255, 255, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Add right border */
+}
+
+#cyberpunk-table thead th:last-child {
+    border-right: none; /* Remove right border from last header cell */
+}
+
+#cyberpunk-table tbody td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Add right border */
+}
+
+#cyberpunk-table tbody td:last-child {
+    border-right: none; /* Remove right border from last cell */
+}
+
+#cyberpunk-table tbody tr:hover {
+    background-color: rgba(0, 255, 255, 0.1); /* Row hover effect */
+}
+
+#cyberpunk-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05); /* Alternate row color */
+}
+
+#cyberpunk-table tfoot {
+    background-color: rgba(0, 255, 255, 0.2); /* Neon cyan footer */
+}
+
+#cyberpunk-table tfoot td {
+    padding: 15px;
+    font-size: 1.1em;
+    border-top: 2px solid rgba(0, 255, 255, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Add right border */
+}
+
+#cyberpunk-table tfoot td:last-child {
+    border-right: none; /* Remove right border from last footer cell */
+}
+
+/* Keyframes for the neon glow animation */
+@keyframes neonGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 5px rgba(0, 255, 255, 0.7),
+            0 0 10px rgba(0, 255, 255, 0.7),
+            0 0 20px rgba(0, 255, 255, 0.7),
+            0 0 40px rgba(0, 255, 255, 0.7);
+    }
+    50% {
+        text-shadow:
+            0 0 10px rgba(0, 255, 255, 0.9),
+            0 0 20px rgba(0, 255, 255, 0.9),
+            0 0 40px rgba(0, 255, 255, 0.9),
+            0 0 80px rgba(0, 255, 255, 0.9);
+    }
+}
+
+/* Optional: Scope font and background styles to prevent affecting other elements */
+#cyberpunk-table-container {
+    background-color: #0d0d0d; /* Dark background */
+    color: #f0f0f0; /* Light text color */
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+}

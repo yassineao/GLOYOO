@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const getNews = async () => {
       try {
-        const articles = await fetchStockNews("stocks"); // Call the API function
+        const articles = await fetchStockNews("Crypto Coins"); // Call the API function
         setArticles(articles); // Save the articles data
         setLoading(false); // Set loading to false once data is fetched
       } catch (err) {
